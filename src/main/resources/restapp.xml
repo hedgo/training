@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:cxf="http://cxf.apache.org/core"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://cxf.apache.org/jaxrs
+http://cxf.apache.org/schemas/jaxrs.xsd
+http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
+
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" /> 
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	
+	<!-- address是服务拦截了url，是在类中配置的父url。
+	例如，在类中配置/user，address配置/userservice,则访问/userservice/user/才可以进入到该类中。
+	 -->
+	<jaxrs:server id="UserService" address="/user">
+		<jaxrs:features>
+			<cxf:logging />
+		</jaxrs:features>
+		<jaxrs:serviceBeans>
+			<ref bean="userService"/>
+		</jaxrs:serviceBeans>
+		
+		<!-- 拦截器，需要客户端和服务器端都设置，暂时不用 -->
+		<!-- <jaxrs:inInterceptors>
+			<ref bean="encodingLoggingInInterceptor"/>
+		</jaxrs:inInterceptors> -->
+	</jaxrs:server>
+	
+	<jaxrs:server id="FileService" address="/file">
+		<jaxrs:features>
+			<cxf:logging />
+		</jaxrs:features>
+		<jaxrs:serviceBeans>
+			<ref bean="fileService"/>
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
+
+
+</beans>
